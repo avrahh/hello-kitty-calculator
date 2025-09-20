@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎀 Hello Kitty Damage Calculator 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #ffe6f0);
+      color: #4d004d;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 182, 193, 0.4);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.4em;
+      color: #ff3399;
+      margin-bottom: 20px;
+    }
+    img.banner {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 150px;
+      border-radius: 15px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 2px solid #ffb6d9;
+      border-radius: 10px;
+      background-color: #fff0f5;
+      box-sizing: border-box;
+    }
+    fieldset {
+      margin-top: 20px;
+      padding: 10px;
+      border: 2px dashed #ff99cc;
+      border-radius: 10px;
+      background-color: #fffafc;
+    }
+    legend {
+      font-weight: bold;
+      color: #ff66aa;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background-color: #ff66aa;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      box-shadow: 0 5px #cc3366;
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      background-color: #ff4d94;
+      transform: translateY(-2px);
+    }
+    h2 {
+      margin-top: 30px;
+      text-align: center;
+      color: #cc0066;
+    }
+    .small-input {
+      width: 48%;
+      display: inline-block;
+      margin-right: 4%;
+    }
+    .small-input:last-child {
+      margin-right: 0;
+    }
+    #result, #critInfo, #statInfo, #debug {
+      font-size: 1.1em;
+      background-color: #fff0fa;
+      border: 2px dotted #ff99cc;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 15px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="https://i.imgur.com/3LIG047.png" alt="Hello Kitty Waving" class="banner" />
+  <h1>🎀 Hello Kitty Damage Calculator 🎀</h1>
+
+  <label>📏 Base Damage:
+    <input type="number" id="baseDmg" value="0" />
+  </label>
+
+  <label>💖 Damage Stat %:
+    <input type="number" id="dmgStat" value="237" />
+  </label>
+
+  <fieldset>
+    <legend>🪞 Blades % (multiple allowed):</legend>
+    <input type="number" class="blade small-input" placeholder="Blade 1 %" value="0" />
+    <input type="number" class="blade small-input" placeholder="Blade 2 %" />
+    <input type="number" class="blade small-input" placeholder="Blade 3 %" />
+  </fieldset>
+
+  <fieldset>
+    <legend>🪞 Traps % (multiple allowed):</legend>
+    <input type="number" class="trap small-input" placeholder="Trap 1 %" value="0" />
+    <input type="number" class="trap small-input" placeholder="Trap 2 %" />
+    <input type="number" class="trap small-input" placeholder="Trap 3 %" />
+  </fieldset>
+
+  <fieldset>
+    <legend>🌫️ Debuffs % (multiple allowed):</legend>
+    <input type="number" class="debuff small-input" placeholder="Debuff 1 %" value="0" />
+    <input type="number" class="debuff small-input" placeholder="Debuff 2 %" />
+    <input type="number" class="debuff small-input" placeholder="Debuff 3 %" />
+  </fieldset>
+
+  <fieldset>
+    <legend>🎯 Incoming Boost % (multiple boosts):</legend>
+    <input type="number" class="incoming small-input" placeholder="Boost 1 %" value="0" />
+  </fieldset>
+
+  <label>✨ Global Buffs %:
+    <input type="number" id="globalBuffs" value="0" />
+  </label>
+
+  <label>🛡️ Enemy Resistance %:
+    <input type="number" id="enemyResist" value="0" />
+  </label>
+
+  <label>🔪 Pierce %:
+    <input type="number" id="pierce" value="0" />
+  </label>
+
+  <label>🧊 Shields %:
+    <input type="number" id="shields" value="0" />
+  </label>
+
+  <label>💥 Critical Hit?
+    <select id="critical">
+      <option value="no">No</option>
+      <option value="yes" selected>Yes</option>
+    </select>
+  </label>
+
+  <label>💫 Crit Rating:
+    <input type="number" id="critRating" value="0" />
+  </label>
+
+  <label>🧱 Block Rating:
+    <input type="number" id="blockRating" value="0" />
+  </label>
+
+  <label>📈 Level:
+    <input type="number" id="level" value="170" />
+  </label>
+
+  <label>💗 Manual Crit Multiplier (optional):
+    <input type="number" id="manualCritMult" step="0.01" placeholder="e.g. 1.92" />
+  </label>
+
+  <button onclick="calculateDamage()">💘 Calculate Cutie Damage 💘</button>
+
+  <h2>Results 🌟</h2>
+  <p id="result"></p>
+  <p id="critInfo"></p>
+  <p id="statInfo"></p>
+
+  <h2>Debug Info 🧠</h2>
+  <pre id="debug"></pre>
+
+  <script src="damageCalc.js"></script>
+</body>
+</html>
+
+
+
+
+
